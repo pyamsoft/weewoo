@@ -9,7 +9,7 @@ COPY tsconfig.json ./
 COPY yarn.lock ./
 COPY .yarnrc.yml ./
 COPY .eslintrc.cjs ./
-COPY .env.prod ./.env
+COPY .env ./.env
 COPY src ./src
 
 RUN chmod 644 .env && yarn && yarn build
