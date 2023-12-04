@@ -1,22 +1,15 @@
-import { SystemMonitor, SystemMonitorUnregister } from "../SystemMonitor";
-import { newLogger } from "../../logger";
-import { AlertSender } from "../../alerts/AlertSender";
 import os from "os";
+import { SystemMonitor } from "../SystemMonitor";
+import { AlertSender } from "../../alerts/AlertSender";
+import { MonitorInput, newMonitor, Runtime } from "./MonitorRuntime";
 
-const logger = newLogger("MemoryMonitor");
-
-export type MemoryMonitorInput = {
+export type MemoryMonitorInput = MonitorInput & {
   objectType: "MemoryMonitorInput";
-  interval: number;
   memoryPercent: number;
 };
 
 export type MemoryMonitor = SystemMonitor & {
   objectType: "MemoryMonitor";
-};
-
-type Runtime = {
-  triggered: boolean;
 };
 
 const getPercentFreeMemory = function () {
@@ -26,19 +19,18 @@ const getPercentFreeMemory = function () {
   return ~~(raw * 100);
 };
 
-const checkFreeMemorySpace = function (
-  runtime: Runtime,
-  input: MemoryMonitorInput,
-  sender: AlertSender,
-) {
+const checkFreeMemorySpace = function (data: {
+  runtime: Runtime;
+  input: MemoryMonitorInput;
+  sender: AlertSender;
+}) {
+  const { input, runtime, sender } = data;
   const { memoryPercent } = input;
 
   const percent = getPercentFreeMemory();
   if (percent <= memoryPercent) {
     // Only notify if flag is not set
-    if (!runtime.triggered) {
-      runtime.triggered = true;
-
+    runtime.trigger(() => {
       // Publish out message
       sender.sendMessage({
         monitorName: "MemoryMonitor",
@@ -46,12 +38,10 @@ const checkFreeMemorySpace = function (
 
 Running out of memory: ${percent}% Free`,
       });
-    }
+    });
   } else {
     // Reset flag
-    if (runtime.triggered) {
-      runtime.triggered = false;
-
+    runtime.reset(() => {
       // Publish out message
       sender.sendMessage({
         monitorName: "MemoryMonitor",
@@ -59,7 +49,7 @@ Running out of memory: ${percent}% Free`,
 
 Memory available: ${percent}% Free`,
       });
-    }
+    });
   }
 };
 
@@ -67,25 +57,10 @@ export const newMemoryMonitor = function (
   sender: AlertSender,
   input: MemoryMonitorInput,
 ): MemoryMonitor {
-  const { interval } = input;
-  const runtime: Runtime = {
-    triggered: false,
-  };
-  return {
+  return newMonitor({
     objectType: "MemoryMonitor",
-
-    watchForAlarm(): SystemMonitorUnregister {
-      logger.log("Watch for Memory alarm");
-
-      const id = setInterval(() => {
-        checkFreeMemorySpace(runtime, input, sender);
-      }, interval);
-      return {
-        unregister: function () {
-          logger.log("Stop watch for Memory alarm");
-          clearInterval(id);
-        },
-      };
-    },
-  };
+    input,
+    sender,
+    onCheckMonitor: checkFreeMemorySpace,
+  });
 };

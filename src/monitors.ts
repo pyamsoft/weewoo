@@ -24,6 +24,7 @@ import {
   newMemoryMonitor,
 } from "./monitors/memory/MemoryMonitor";
 import { CommandLineArguments } from "./cli";
+import { CpuMonitorInput, newCpuMonitor } from "./monitors/memory/CpuMonitor";
 
 const memoryMonitor = function (
   sender: AlertSender,
@@ -37,17 +38,31 @@ const memoryMonitor = function (
   return newMemoryMonitor(sender, inputs);
 };
 
+const cpuMonitor = function (
+  sender: AlertSender,
+  args: CommandLineArguments,
+): SystemMonitor {
+  const inputs: CpuMonitorInput = {
+    objectType: "CpuMonitorInput",
+    interval: args.interval,
+    cpuPercent: args.cpuPercent,
+  };
+  return newCpuMonitor(sender, inputs);
+};
+
 export const initializeMonitors = function (
   sender: AlertSender,
   args: CommandLineArguments,
 ): SystemMonitorUnregister {
   const monitors: SystemMonitor[] = [];
-  monitors.push(memoryMonitor(sender, args));
 
-  const unregsiters = monitors.map((m) => m.watchForAlarm());
+  monitors.push(memoryMonitor(sender, args));
+  monitors.push(cpuMonitor(sender, args));
+
+  const unregisters = monitors.map((m) => m.watchForAlarm());
   return {
     unregister: function () {
-      unregsiters.forEach((u) => u.unregister());
+      unregisters.forEach((u) => u.unregister());
     },
   };
 };

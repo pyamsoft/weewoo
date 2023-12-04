@@ -4,4 +4,5 @@ export type CommandLineArguments = {
   interval: number;
 
   memoryPercent: number;
+  cpuPercent: number;
 };

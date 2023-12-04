@@ -30,6 +30,7 @@ const collectCmdArgs = async function (): Promise<CommandLineArguments> {
     interval: 5000,
 
     memoryPercent: 15,
+    cpuPercent: 60,
   };
 };
 
