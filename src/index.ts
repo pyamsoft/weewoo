@@ -27,10 +27,15 @@ const logger = newLogger("WeeWoo");
 const collectCmdArgs = async function (): Promise<CommandLineArguments> {
   return {
     objectType: "CommandLineArguments",
-    interval: 5000,
 
+    // 15 seconds between checks
+    interval: 15 * 1000,
+
+    // Warn if free memory below 15%
     memoryPercent: 15,
-    cpuPercent: 60,
+
+    // Warn if CPU usage above 10%
+    cpuPercent: 10,
   };
 };
 
