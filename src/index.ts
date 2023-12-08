@@ -34,8 +34,11 @@ const collectCmdArgs = async function (): Promise<CommandLineArguments> {
     // Warn if free memory below 15%
     memoryPercent: 15,
 
-    // Warn if CPU usage above 10%
-    cpuPercent: 10,
+    // Warn if CPU usage above 60%
+    // The CPU randomly spikes on AWS as it attempts to reclaim burst CPU
+    // since we are running on such a tiny box. Usually we see 50% or so,
+    // since thats 'expected' we don't care, but warn us if it goes much higher
+    cpuPercent: 60,
   };
 };
 
