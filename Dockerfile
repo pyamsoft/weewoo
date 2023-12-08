@@ -1,6 +1,6 @@
 FROM node:18-slim
 
-WORKDIR /mousewatch
+WORKDIR /weewoo
 
 RUN umask 0022
 
