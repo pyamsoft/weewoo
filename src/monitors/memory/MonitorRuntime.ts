@@ -7,25 +7,38 @@ const logger = newLogger("MonitorRuntime");
 export type Runtime = {
   objectType: "Runtime";
 
+  seenCount: number;
+
+  bumpSeenCount: () => void;
+
   trigger: (onTrigger: () => void) => void;
   reset: (onReset: () => void) => void;
 };
 
 const newRuntime = function (): Runtime {
   let triggered = false;
+  let seenCount = 0;
 
   return {
     objectType: "Runtime",
 
+    seenCount,
+
     trigger: function (onTrigger: () => void) {
       if (!triggered) {
+        seenCount = 0;
         triggered = true;
         onTrigger();
       }
     },
 
+    bumpSeenCount: function () {
+      seenCount += 1;
+    },
+
     reset: function (onReset: () => void) {
       if (triggered) {
+        seenCount = 0;
         triggered = false;
         onReset();
       }

@@ -76,15 +76,21 @@ const checkCpuUsage = async function (data: {
 
   const percent = await awaitCPUUsagePercent();
   if (percent >= cpuPercent) {
-    // Publish out message
-    runtime.trigger(() => {
-      sender.sendMessage({
-        monitorName: "CpuMonitor",
-        text: `${new Date()}
+    // Only send the message on sustained high CPU percentage
+    if (runtime.seenCount > 1) {
+      // Publish out message
+      runtime.trigger(() => {
+        sender.sendMessage({
+          monitorName: "CpuMonitor",
+          text: `${new Date()}
 
 High CPU usage: ${percent}%`,
+        });
       });
-    });
+    } else {
+      // The first time we see, just bump the internal amount
+      runtime.bumpSeenCount();
+    }
   } else {
     // Reset flag
     runtime.reset(() => {
