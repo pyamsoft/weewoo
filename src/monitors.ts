@@ -24,7 +24,7 @@ import {
   newMemoryMonitor,
 } from "./monitors/memory/MemoryMonitor";
 import { CommandLineArguments } from "./cli";
-import { CpuMonitorInput, newCpuMonitor } from "./monitors/memory/CpuMonitor";
+import { CpuMonitorInput, newCpuMonitor } from "./monitors/cpu/CpuMonitor";
 
 const memoryMonitor = function (
   sender: AlertSender,

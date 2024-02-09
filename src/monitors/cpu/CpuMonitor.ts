@@ -1,7 +1,7 @@
 import os from "os";
 import { SystemMonitor } from "../SystemMonitor";
 import { AlertSender } from "../../alerts/AlertSender";
-import { MonitorInput, newMonitor, Runtime } from "./MonitorRuntime";
+import { MonitorInput, newMonitor, Runtime } from "../MonitorRuntime";
 
 export type CpuMonitorInput = MonitorInput & {
   objectType: "CpuMonitorInput";
@@ -76,21 +76,15 @@ const checkCpuUsage = async function (data: {
 
   const percent = await awaitCPUUsagePercent();
   if (percent >= cpuPercent) {
-    // Only send the message on sustained high CPU percentage
-    if (runtime.seenCount > 1) {
-      // Publish out message
-      runtime.trigger(() => {
-        sender.sendMessage({
-          monitorName: "CpuMonitor",
-          text: `${new Date()}
+    // Publish out message
+    runtime.trigger(() => {
+      sender.sendMessage({
+        monitorName: "CpuMonitor",
+        text: `${new Date()}
 
 High CPU usage: ${percent}%`,
-        });
       });
-    } else {
-      // The first time we see, just bump the internal amount
-      runtime.bumpSeenCount();
-    }
+    });
   } else {
     // Reset flag
     runtime.reset(() => {

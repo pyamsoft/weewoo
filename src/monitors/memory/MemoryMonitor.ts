@@ -1,7 +1,7 @@
 import os from "os";
 import { SystemMonitor } from "../SystemMonitor";
 import { AlertSender } from "../../alerts/AlertSender";
-import { MonitorInput, newMonitor, Runtime } from "./MonitorRuntime";
+import { MonitorInput, newMonitor, Runtime } from "../MonitorRuntime";
 
 export type MemoryMonitorInput = MonitorInput & {
   objectType: "MemoryMonitorInput";
