@@ -12,6 +12,11 @@ COPY .eslintrc.cjs ./
 COPY .env ./.env
 COPY src ./src
 
-RUN chmod 644 .env && yarn && yarn build
+# Enable corepack
+RUN chmod 644 .env && corepack enable
 
+# Build
+RUN yarn && yarn build
+
+# Run
 CMD [ "node", "./dist/index.js" ]

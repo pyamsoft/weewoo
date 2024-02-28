@@ -16,17 +16,17 @@
     "node": ">=18.x"
   },
   "dependencies": {
-    "axios": "1.6.3",
+    "axios": "1.6.7",
     "discord.js": "14.14.1",
-    "dotenv": "16.3.1"
+    "dotenv": "16.4.5"
   },
   "devDependencies": {
-    "@types/node": "20.10.6",
-    "@typescript-eslint/eslint-plugin": "6.16.0",
-    "@typescript-eslint/parser": "6.16.0",
-    "eslint": "8.56.0",
-    "npm-check-updates": "16.14.12",
-    "prettier": "3.1.1",
+    "@types/node": "20.11.21",
+    "@typescript-eslint/eslint-plugin": "7.1.0",
+    "@typescript-eslint/parser": "7.1.0",
+    "eslint": "8.57.0",
+    "npm-check-updates": "16.14.15",
+    "prettier": "3.2.5",
     "tslib": "2.6.2",
     "typescript": "5.3.3"
   }
