@@ -1,33 +1,33 @@
 {
   "name": "weewoo",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A simple system monitor and alerter",
   "main": "index.js",
   "repository": "https://github.com/pyamsoft/weewoo",
   "author": "pyamsoft <developer.pyamsoft@gmail.com>",
   "license": "Apache-2.0",
-  "packageManager": "yarn@4.0.2",
+  "packageManager": "yarn@4.3.1",
   "scripts": {
     "build": "rm -rf dist && yarn lint && tsc",
     "start": "yarn build && node ./dist/index.js",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "engines": {
-    "node": ">=18.x"
+    "node": ">=20.x"
   },
   "dependencies": {
-    "axios": "1.6.7",
-    "discord.js": "14.14.1",
+    "axios": "1.7.2",
+    "discord.js": "14.15.3",
     "dotenv": "16.4.5"
   },
   "devDependencies": {
-    "@types/node": "20.11.21",
-    "@typescript-eslint/eslint-plugin": "7.1.0",
-    "@typescript-eslint/parser": "7.1.0",
+    "@types/node": "20.14.12",
+    "@typescript-eslint/eslint-plugin": "7.17.0",
+    "@typescript-eslint/parser": "7.17.0",
     "eslint": "8.57.0",
-    "npm-check-updates": "16.14.15",
-    "prettier": "3.2.5",
-    "tslib": "2.6.2",
-    "typescript": "5.3.3"
+    "npm-check-updates": "16.14.20",
+    "prettier": "3.3.3",
+    "tslib": "2.6.3",
+    "typescript": "5.5.4"
   }
 }

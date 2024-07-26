@@ -1,4 +1,4 @@
-FROM node:18-slim
+FROM node:20-slim
 
 WORKDIR /weewoo
 
@@ -11,6 +11,9 @@ COPY .yarnrc.yml ./
 COPY .eslintrc.cjs ./
 COPY .env ./.env
 COPY src ./src
+
+# Yarn build file
+COPY .yarn/releases/yarn-*.cjs ./.yarn/releases/
 
 # Enable corepack
 RUN chmod 644 .env && corepack enable

@@ -1,8 +1,10 @@
 .env
-.yarn
 node_modules
 dist
 .idea
 
 # corepack local install
 lib
+
+.yarn
+!.yarn/releases
